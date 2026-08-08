@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sorting Algorithm Visualization — Step-by-Step Interactive Animation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="topnav">
+  <div class="nav-inner">
+    <div class="brand" data-nav="home">
+      <span class="brand-mark">◈</span>
+      <span class="brand-text">SortViz</span>
+    </div>
+    <nav class="nav-links">
+      <button class="nav-link active" data-nav="home">Home</button>
+      <button class="nav-link" data-nav="visualizer">Visualizer</button>
+      <button class="nav-link" data-nav="algorithms">Algorithms</button>
+      <button class="nav-link" data-nav="comparison">Comparison</button>
+      <button class="nav-link" data-nav="about">About Project</button>
+    </nav>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <span class="theme-icon">☾</span>
+      </button>
+      <button class="btn btn-primary btn-small" data-nav="visualizer">Start Visualizing</button>
+    </div>
+    <button class="nav-burger" id="navBurger" aria-label="Menu">☰</button>
+  </div>
+</header>
+
+<!-- ============ HOME ============ -->
+<main>
+<section class="view active" id="view-home">
+
+  <section class="hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <p class="eyebrow">Interactive Algorithm Lab</p>
+      <h1 class="hero-title">
+        Sorting Algorithm<br>Visualization
+      </h1>
+      <p class="hero-sub">Step-by-Step Interactive Animation</p>
+      <p class="hero-desc">Explore how sorting algorithms work through interactive, step-by-step visualizations. Watch every comparison, every swap, every element finding its place — one operation at a time.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary btn-large" data-nav="visualizer">Start Visualization</button>
+        <button class="btn btn-ghost btn-large" data-nav="algorithms">Explore Algorithms</button>
+      </div>
+      <div class="hero-trace" id="heroTrace" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <p class="section-eyebrow">What you'll see</p>
+    <h2 class="section-title">Every operation, made visible</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <span class="feature-glyph cmp">A↔B</span>
+        <h3>Comparisons</h3>
+        <p>Watch exactly which two elements are being measured against each other at every step.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-glyph swp">⇄</span>
+        <h3>Swaps</h3>
+        <p>See elements exchange places in real time, with the reason for every swap explained.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-glyph piv">◆</span>
+        <h3>Pivots & Minimums</h3>
+        <p>Track pivot selection in Quick Sort and running minimums in Selection Sort as they're chosen.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-glyph srt">✓</span>
+        <h3>Finalized Order</h3>
+        <p>Elements lock into place as they reach their correct sorted position — nothing is hidden.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block credits-block">
+    <p class="section-eyebrow">Project Credits</p>
+    <div class="credits-grid">
+      <div class="credit-card">
+        <h4>Presented By</h4>
+        <p>Gayam Kishore Reddy</p>
+        <p>Pamba Nixan Ran</p>
+      </div>
+      <div class="credit-card">
+        <h4>Guided By</h4>
+        <p>Paritosh</p>
+      </div>
+    </div>
+  </section>
+
+</section>
+
+<!-- ============ VISUALIZER ============ -->
+<section class="view" id="view-visualizer">
+  <div class="dash">
+
+    <aside class="control-panel" id="controlPanel">
+      <div class="panel-block">
+        <label class="panel-label">Algorithm</label>
+        <select id="algoSelect" class="select">
+          <option value="bubble">Bubble Sort</option>
+          <option value="selection">Selection Sort</option>
+          <option value="insertion">Insertion Sort</option>
+          <option value="merge">Merge Sort</option>
+          <option value="quick">Quick Sort</option>
+        </select>
+        <p class="algo-mini-desc" id="algoMiniDesc"></p>
+        <div class="complexity-mini" id="complexityMini"></div>
+      </div>
+
+      <div class="panel-block">
+        <label class="panel-label">Array Size <span class="panel-value" id="sizeValue">20</span></label>
+        <input type="range" id="sizeSlider" class="slider" min="5" max="70" value="20">
+      </div>
+
+      <div class="panel-block panel-row">
+        <button class="btn btn-secondary btn-block" id="randomBtn">Generate Random Array</button>
+      </div>
+
+      <div class="panel-block">
+        <label class="panel-label">Manual Input</label>
+        <div class="manual-row">
+          <input type="text" id="manualInput" class="text-input" placeholder="e.g. 45, 12, 78, 23, 9">
+          <button class="btn btn-secondary" id="manualBtn">Set</button>
+        </div>
+        <p class="input-hint" id="inputHint"></p>
+      </div>
+
+      <div class="panel-block">
+        <label class="panel-label">Animation Speed <span class="panel-value" id="speedValue">Normal</span></label>
+        <input type="range" id="speedSlider" class="slider" min="0" max="3" value="1" step="1">
+        <div class="speed-ticks"><span>Slow</span><span>Normal</span><span>Fast</span><span>Very Fast</span></div>
+      </div>
+
+      <div class="panel-block transport">
+        <button class="btn btn-icon" id="stepBackBtn" title="Step Backward">⏮</button>
+        <button class="btn btn-primary btn-block" id="playBtn">Start</button>
+        <button class="btn btn-icon" id="stepFwdBtn" title="Step Forward">⏭</button>
+      </div>
+      <div class="panel-block panel-row">
+        <button class="btn btn-ghost btn-block" id="resetBtn">Reset</button>
+      </div>
+
+      <div class="panel-block toast-block" id="toast"></div>
+    </aside>
+
+    <section class="viz-main">
+      <div class="viz-header">
+        <div>
+          <h2 class="viz-title" id="vizAlgoName">Bubble Sort</h2>
+          <p class="viz-op" id="vizOp">Generate an array and press Start to begin.</p>
+        </div>
+        <div class="step-counter" id="stepCounter">Step 0 / 0</div>
+      </div>
+
+      <div class="legend">
+        <span class="legend-item"><i class="dot dot-normal"></i>Normal</span>
+        <span class="legend-item"><i class="dot dot-compare"></i>Comparing</span>
+        <span class="legend-item"><i class="dot dot-swap"></i>Swapping</span>
+        <span class="legend-item"><i class="dot dot-pivot"></i>Pivot</span>
+        <span class="legend-item"><i class="dot dot-min"></i>Minimum</span>
+        <span class="legend-item"><i class="dot dot-sorted"></i>Sorted</span>
+      </div>
+
+      <div class="bars-stage" id="barsStage">
+        <div class="bars-container" id="barsContainer"></div>
+      </div>
+
+      <div class="stats-panel">
+        <div class="stat"><span class="stat-label">Algorithm</span><span class="stat-value" id="statAlgo">—</span></div>
+        <div class="stat"><span class="stat-label">Array Size</span><span class="stat-value" id="statSize">—</span></div>
+        <div class="stat"><span class="stat-label">Comparisons</span><span class="stat-value" id="statComparisons">0</span></div>
+        <div class="stat"><span class="stat-label">Swaps</span><span class="stat-value" id="statSwaps">0</span></div>
+        <div class="stat"><span class="stat-label">Step</span><span class="stat-value" id="statStep">0 / 0</span></div>
+        <div class="stat"><span class="stat-label">Status</span><span class="stat-value" id="statStatus">Idle</span></div>
+      </div>
+
+      <div class="step-log" id="stepLog">
+        <div class="step-log-inner" id="stepLogInner"></div>
+      </div>
+    </section>
+  </div>
+</section>
+
+<!-- ============ ALGORITHMS ============ -->
+<section class="view" id="view-algorithms">
+  <section class="section-block">
+    <p class="section-eyebrow">Reference</p>
+    <h2 class="section-title">The five algorithms</h2>
+    <div class="algo-cards" id="algoCards"></div>
+
+    <h3 class="table-title">Complexity Comparison</h3>
+    <div class="table-wrap">
+      <table class="complexity-table">
+        <thead>
+          <tr><th>Algorithm</th><th>Best Case</th><th>Average Case</th><th>Worst Case</th><th>Space</th></tr>
+        </thead>
+        <tbody id="complexityTableBody"></tbody>
+      </table>
+    </div>
+  </section>
+</section>
+
+<!-- ============ COMPARISON ============ -->
+<section class="view" id="view-comparison">
+  <section class="section-block">
+    <p class="section-eyebrow">Benchmark</p>
+    <h2 class="section-title">Compare algorithms</h2>
+    <p class="section-desc">Pick two algorithms and run them against the exact same array. See how their comparisons, swaps and step counts stack up.</p>
+
+    <div class="compare-controls">
+      <div class="compare-select-block">
+        <label class="panel-label">Algorithm A</label>
+        <select id="compareA" class="select"></select>
+      </div>
+      <div class="compare-select-block">
+        <label class="panel-label">Algorithm B</label>
+        <select id="compareB" class="select"></select>
+      </div>
+      <div class="compare-select-block">
+        <label class="panel-label">Array Size <span class="panel-value" id="compareSizeValue">30</span></label>
+        <input type="range" id="compareSize" class="slider" min="5" max="70" value="30">
+      </div>
+      <button class="btn btn-primary" id="runCompareBtn">Run Comparison</button>
+    </div>
+
+    <div class="compare-results" id="compareResults"></div>
+  </section>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="view" id="view-about">
+  <section class="section-block about-block">
+    <p class="section-eyebrow">About Project</p>
+    <h2 class="section-title">Web Application for Sorting Algorithm Visualization</h2>
+    <p class="about-sub">Step-by-Step Interactive Animation</p>
+
+    <div class="about-grid">
+      <div class="about-card">
+        <h4>Presented By</h4>
+        <p>Gayam Kishore Reddy</p>
+        <p>Pamba Nixan Ran</p>
+      </div>
+      <div class="about-card">
+        <h4>Guided By</h4>
+        <p>Paritosh</p>
+      </div>
+    </div>
+
+    <div class="about-objective">
+      <h4>Project Objective</h4>
+      <p>This project provides an interactive visual environment for understanding the working of fundamental sorting algorithms through real-time, step-by-step animation. Rather than reading through code or static explanations, students can watch each comparison, swap and placement happen on screen — building genuine intuition for how Bubble, Selection, Insertion, Merge and Quick Sort actually operate, and why each one behaves differently in the best, average and worst case.</p>
+    </div>
+  </section>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <p>Sorting Algorithm Visualization — Step-by-Step Interactive Animation · College CS Project</p>
+</footer>
+
+<script src="js/algorithms/bubbleSort.js"></script>
+<script src="js/algorithms/selectionSort.js"></script>
+<script src="js/algorithms/insertionSort.js"></script>
+<script src="js/algorithms/mergeSort.js"></script>
+<script src="js/algorithms/quickSort.js"></script>
+<script src="js/visualizer.js"></script>
+<script src="js/controls.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
